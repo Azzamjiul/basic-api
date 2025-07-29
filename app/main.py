@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import FastAPI
 from app.settings import settings
 from scalar_fastapi import get_scalar_api_reference
@@ -5,9 +6,10 @@ from scalar_fastapi import get_scalar_api_reference
 app = FastAPI(title=settings.APP_NAME, version=settings.VERSION)
 
 @app.get("/")
-def hello():
+def hello(max_price: Optional[int] = None):
     return {
-        "message": "Hello, World!"
+        "message": "Hello, World!",
+        "max_price": max_price
     }
 
 @app.get("/scalar", include_in_schema=False)
