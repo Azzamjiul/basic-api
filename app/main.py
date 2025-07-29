@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from app.settings import settings
+from scalar_fastapi import get_scalar_api_reference
 
 app = FastAPI(title=settings.APP_NAME, version=settings.VERSION)
 
@@ -8,3 +9,10 @@ def hello():
     return {
         "message": "Hello, World!"
     }
+
+@app.get("/scalar", include_in_schema=False)
+async def scalar_html():
+    return get_scalar_api_reference(
+        openapi_url=app.openapi_url,
+        title=app.title,
+    )
